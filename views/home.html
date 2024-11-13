@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle - Clínica Hospitalar</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header {
+            background-color: #ff4800;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .nav-link {
+            color: #333;
+        }
+        .section {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background: white;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+        footer {
+            background-color: #ff4800;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Bem-vindo à Uniruymed<span class="cross">+</span></h1>
+    </div>
+
+    <div class="container mt-4">
+        <nav class="nav nav-pills justify-content-center mb-4">
+            <a class="nav-link active" id="consultaTab" href="#">Consulta</a>
+            <a class="nav-link" id="marcarConsultaTab" href="#">Marcar Consulta</a>
+            <a class="nav-link" id="sobreEmpresaTab" href="#">Sobre a Empresa</a>
+        </nav>
+
+        <div class="section" id="consultaSection">
+            <h2>Consulta</h2>
+            <p>Aqui estão suas consultas agendadas:</p>
+            <ul id="protocolList"></ul>
+        </div>
+
+        <div class="section" id="marcarConsultaSection" style="display: none;">
+            <h2>Marcar Consulta</h2>
+            <form id="scheduleForm" method="post" action="/consultas">
+                <div class="form-group">
+                    <label for="specialty">Especialidade</label>
+                    <select class="form-control" id="specialty" required>
+                        <option value="" disabled selected>Selecione uma especialidade</option>
+                        <option value="Oftalmologista">Oftalmologista</option>
+                        <option value="Cardiologista">Cardiologista</option>
+                        <option value="Clínica Geral">Clínica Geral</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="cpf" id="cpf" maxlength="11">
+                </div>
+                <div class="form-group">
+                    <label for="date">Data</label>
+                    <input type="datetime" class="form-control" id="date" name="data_agendamento" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Marcar Consulta</button>
+            </form>
+        </div>
+
+        <div class="section" id="sobreEmpresaSection" style="display: none;">
+            <h2>Sobre a Empresa</h2>
+            <p>A Uniruymed é uma clínica que oferece atendimento médico de qualidade, com profissionais qualificados e tecnologia de ponta.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Uniruymed. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.nav-link').on('click', function(e) {
+                e.preventDefault();
+                $('.nav-link').removeClass('active');
+                $(this).addClass('active');
+    
+                const idAlvo = $(this).attr('id').replace('Tab', 'Section');
+                $('.section').hide();
+                $('#' + idAlvo).show();
+            });
+    
+            let protocolos = [];
+    
+            $('#scheduleForm').on('submit', function(e) {
+                e.preventDefault();
+    
+                const especialidade = $('#specialty').val();
+                const data = new Date($('#date').val());
+                const partesHora = $('#time').val().split(':');
+                const hora = new Date(data);
+                hora.setHours(partesHora[0], partesHora[1]);
+    
+                const dataAtual = new Date();
+                dataAtual.setHours(0, 0, 0, 0); // Define o início do dia para comparação
+    
+                let erroData = false;
+                let erroHorario = false;
+    
+                // Verifica se a data é no passado
+                if (data < dataAtual) {
+                    erroData = true;
+                }
+    
+                // Verifica se o horário está dentro do horário de funcionamento (08:00 - 15:00)
+                const horarioAbertura = new Date(data);
+                horarioAbertura.setHours(8, 0, 0); // 08:00
+                const horarioFechamento = new Date(data);
+                horarioFechamento.setHours(15, 0, 0); // 15:00
+    
+                if (hora < horarioAbertura || hora >= horarioFechamento) {
+                    erroHorario = true;
+                }
+    
+                // Exibe mensagens de erro
+                if (erroData && erroHorario) {
+                    alert('Corrija os campos abaixo: data e horário.');
+                    return;
+                } else if (erroData) {
+                    alert('Corrija o campo de data.');
+                    return;
+                } else if (erroHorario) {
+                    alert('O horário de funcionamento da clínica é das 08:00 às 15:00, por favor agende outro horário.');
+                    return;
+                }
+    
+                const protocolo = Math.floor(100000 + Math.random() * 900000); // Gera um protocolo de 6 dígitos
+    
+                protocolos.push(`Protocolo: ${protocolo} - ${especialidade} em ${data.toISOString().split('T')[0]} às ${$('#time').val()}`);
+                $('#protocolList').append(`<li>${protocolos[protocolos.length - 1]}</li>`); // Adiciona o protocolo à lista
+    
+                $('#scheduleForm')[0].reset(); // Limpa o formulário
+                alert('Consulta marcada com sucesso! Protocolo: ' + protocolo);
+            });
+        });
+    </script>
+</body>
+</html>
