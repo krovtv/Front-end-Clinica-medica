@@ -123,16 +123,18 @@
         <div class="section" id="consultaSection">
             <h2>Consulta</h2>
             <p>Aqui estão suas consultas agendadas:</p>
-            <table>
+            <table  class="table">
                 <thead>
-                    <th>Data do Agendamento</th>
-                    <th>Paciente</th>
-                    <th>Médico</th>
+                    <th scope="col">Data do Agendamento</th>
+                    <th scope="col">Horário do Agendamento</th>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">Médico</th>
                 </thead>
                 <tbody>
                     {% for consulta in consultas %}
                         <tr>
-                            <td>{{consulta[1]}}</td>
+                            <td>{{consulta[1] | format_date}}</td>
+                            <td>{{consulta[1] | format_hour}}</td>
                             <td>{{consulta[2]}}</td>
                             <td>{{consulta[3]}}</td>
                         </tr>
