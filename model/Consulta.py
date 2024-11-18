@@ -19,7 +19,19 @@ class Consulta(Model):
         conn.commit()
         
     def get(self, id: int | None = None):
-        sql =  "SELECT ROWID as id, data_agendamento, id_paciente, id_medico from consultas;"
+        sql =  """
+           SELECT 
+            consultas.ROWID AS id, 
+            consultas.data_agendamento, 
+            pacientes.nome, 
+            medicos.nome
+            FROM
+                consultas
+            INNER JOIN 
+                pacientes ON pacientes.ROWID = id_paciente
+            INNER JOIN 
+                medicos ON medicos.ROWID = id_medico;
+        """
         if id is not None:
             sql += "WHERE id = ?"
         

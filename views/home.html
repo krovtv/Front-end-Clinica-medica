@@ -147,15 +147,6 @@
             <h2>Marcar Consulta</h2>
             <form id="scheduleForm" method="post" action="/consultas">
                 <div class="form-group">
-                    <label for="specialty">Especialidade</label>
-                    <select class="form-control" id="specialty" required>
-                        <option value="" disabled selected>Selecione uma especialidade</option>
-                        <option value="Oftalmologista">Oftalmologista</option>
-                        <option value="Cardiologista">Cardiologista</option>
-                        <option value="Clínica Geral">Clínica Geral</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label for="paciente_cpf">CPF do Paciente <span class="text-danger" title="Lembre-se que o paciente deve estar previamente cadastrado"><sup>?</sup></span> </label>
                     <input class="form-control" type="text" name="paciente_cpf" id="cpf" maxlength="11">
                     <small>Digite somente os números</small>
