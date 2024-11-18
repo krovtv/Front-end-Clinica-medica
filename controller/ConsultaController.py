@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, request
 from model.Consulta import instance as consulta
+from model.Medico import instance as medico
 
 class ConsultaController:
     blueprint = Blueprint("Consultas", __name__)
@@ -7,11 +8,13 @@ class ConsultaController:
     @blueprint.get("/consultas")
     def get():
         data = consulta.get()
-        return render_template("home.html", context=data)
+        medicos = medico.get()
+        return render_template("home.html", consultas=data, medicos=medicos)
     
     @blueprint.post("/consultas")
     def create():
         data = request.form
-       # __consulta.create(data)
+        
+        consulta.create(data)
         
         return redirect("/consultas")

@@ -1,6 +1,13 @@
+CREATE TABLE IF NOT EXISTS especialidades(
+	nome varchar(150) NOT NULL,
+	descricao text NOT null
+);
+
 CREATE TABLE IF NOT EXISTS medicos(
 	nome text NOT NULL,
-	idade integer NOT NULL
+	idade integer NOT NULL,
+	especialidade integer,
+	FOREIGN KEY (especialidade) REFERENCES especialidades(rowid)
 );
 
 CREATE TABLE IF NOT EXISTS pacientes(
@@ -8,6 +15,7 @@ CREATE TABLE IF NOT EXISTS pacientes(
 	idade integer NOT NULL,
 	cpf char(11) NOT NULL UNIQUE
 );
+
 
 CREATE TABLE IF NOT EXISTS consultas (
 	id_medico integer NOT NULL,
@@ -32,4 +40,3 @@ CREATE TABLE IF NOT EXISTS exames (
 	FOREIGN KEY (id_paciente) REFERENCES pacientes(rowid),
 	FOREIGN KEY (tipo_exame) REFERENCES tipo_exame(rowid)
 );
-
