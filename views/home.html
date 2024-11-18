@@ -123,7 +123,22 @@
         <div class="section" id="consultaSection">
             <h2>Consulta</h2>
             <p>Aqui estão suas consultas agendadas:</p>
-            <ul id="protocolList"></ul>
+            <table>
+                <thead>
+                    <th>Data do Agendamento</th>
+                    <th>Paciente</th>
+                    <th>Médico</th>
+                </thead>
+                <tbody>
+                    {% for consulta in consultas %}
+                        <tr>
+                            <td>{{consulta[1]}}</td>
+                            <td>{{consulta[2]}}</td>
+                            <td>{{consulta[3]}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
         <div class="section" id="marcarConsultaSection" style="display: none;">
@@ -180,57 +195,6 @@
                 const idAlvo = $(this).attr('id').replace('Tab', 'Section');
                 $('.section').hide().removeClass('show');
                 $('#' + idAlvo).fadeIn().addClass('show');
-            });
-
-            $('#scheduleForm').on('submit', function(e) {
-                e.preventDefault();
-    
-                const especialidade = $('#specialty').val();
-                const data = new Date($('#date').val());
-                const partesHora = $('#time').val().split(':');
-                const hora = new Date(data);
-                hora.setHours(partesHora[0], partesHora[1]);
-    
-                const dataAtual = new Date();
-                dataAtual.setHours(0, 0, 0, 0); // Define o início do dia para comparação
-    
-                let erroData = false;
-                let erroHorario = false;
-    
-                // Verifica se a data é no passado
-                if (data < dataAtual) {
-                    erroData = true;
-                }
-    
-                // Verifica se o horário está dentro do horário de funcionamento (08:00 - 15:00)
-                const horarioAbertura = new Date(data);
-                horarioAbertura.setHours(8, 0, 0); // 08:00
-                const horarioFechamento = new Date(data);
-                horarioFechamento.setHours(15, 0, 0); // 15:00
-    
-                if (hora < horarioAbertura || hora >= horarioFechamento) {
-                    erroHorario = true;
-                }
-    
-                // Exibe mensagens de erro
-                if (erroData && erroHorario) {
-                    alert('Corrija os campos abaixo: data e horário.');
-                    return;
-                } else if (erroData) {
-                    alert('Corrija o campo de data.');
-                    return;
-                } else if (erroHorario) {
-                    alert('O horário de funcionamento da clínica é das 08:00 às 15:00, por favor agende outro horário.');
-                    return;
-                }
-    
-                const protocolo = Math.floor(100000 + Math.random() * 900000); // Gera um protocolo de 6 dígitos
-    
-                protocolos.push(`Protocolo: ${protocolo} - ${especialidade} em ${data.toISOString().split('T')[0]} às ${$('#time').val()}`);
-                $('#protocolList').append(`<li>${protocolos[protocolos.length - 1]}</li>`); // Adiciona o protocolo à lista
-    
-                $('#scheduleForm')[0].reset(); // Limpa o formulário
-                alert('Consulta marcada com sucesso! Protocolo: ' + protocolo);
             });
         });
     </script>
