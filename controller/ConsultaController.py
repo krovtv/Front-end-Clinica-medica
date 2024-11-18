@@ -5,16 +5,16 @@ from model.Paciente import instance as paciente
 
 
 class ConsultaController:
-    blueprint = Blueprint("Consultas", __name__)
+    blueprint = Blueprint("Consultas", __name__, url_prefix="/consultas")
     
-    @blueprint.get("/consultas")
+    @blueprint.get("/")
     def get():
         data = consulta.get()
         medicos = medico.get()
 
         return render_template("home.html", consultas=data, medicos=medicos)
     
-    @blueprint.post("/consultas")
+    @blueprint.post("/")
     def create():
         paciente_cpf = request.form["paciente_cpf"]
         data_agendamento = request.form["data_agendamento"]
@@ -30,4 +30,9 @@ class ConsultaController:
         
         consulta.create(data)
         
+        return redirect("/consultas")
+    
+    @blueprint.get("/delete/<id>")
+    def delete(id):
+        consulta.delete(id)
         return redirect("/consultas")

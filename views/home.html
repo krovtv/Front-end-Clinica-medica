@@ -129,6 +129,7 @@
                     <th scope="col">Horário do Agendamento</th>
                     <th scope="col">Paciente</th>
                     <th scope="col">Médico</th>
+                    <th scope="col" colspan="2">Ações</th>
                 </thead>
                 <tbody>
                     {% for consulta in consultas %}
@@ -137,6 +138,12 @@
                             <td>{{consulta[1] | format_hour}}</td>
                             <td>{{consulta[2]}}</td>
                             <td>{{consulta[3]}}</td>
+                            <td>
+                                <button data-id="{{consulta[0]}}"  class="btn btn-info edit">Editar</button>
+                            </td>
+                            <td>
+                                <button data-id="{{consulta[0]}}" class="btn btn-danger delete">Apagar</button>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -189,6 +196,14 @@
                 $('.section').hide().removeClass('show');
                 $('#' + idAlvo).fadeIn().addClass('show');
             });
+        });
+
+        $(".delete").click( function(e){
+            const id = $(this).data('id');
+            const confirmation = confirm("Deseja remover essa consulta?")
+            if (confirmation){
+                location.assign("/consultas/delete/" + id)
+            }
         });
     </script>
 </body>

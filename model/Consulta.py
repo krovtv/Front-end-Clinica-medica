@@ -14,7 +14,7 @@ class Consulta(Model):
         sql += "WHERE id = ?"
     
     def delete(self, id):
-        sql = "DELETE FROM consultas WHERE id = ?"
+        sql = "DELETE FROM consultas WHERE ROWID = ?"
         cursor.execute(sql, [id])
         conn.commit()
         
