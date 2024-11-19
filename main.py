@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from controller.ConsultaController import ConsultaController
 from controller.Login import Login
+from controller.Cadastro import Cadastro
 from datetime import datetime
 
 app = Flask(__name__, template_folder="views")
@@ -19,6 +20,7 @@ def choose_type_login():
 
 app.register_blueprint(ConsultaController().blueprint)
 app.register_blueprint(Login().blueprint)
+app.register_blueprint(Cadastro().blueprint)
 
 
 
