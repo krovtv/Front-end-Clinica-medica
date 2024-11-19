@@ -36,3 +36,21 @@ class ConsultaController:
     def delete(id):
         consulta.delete(id)
         return redirect("/consultas")
+    
+    @blueprint.route("/edit/<id>", methods=["POST", "GET"])
+    def edit(id):
+        if request.method == "POST":
+            paciente_id = paciente.get_by_cpf(request.form["paciente_cpf"])[0]
+            data = {
+                "id_medico": request.form['medico'],
+                "data_agendamento": request.form["data_agendamento"],
+                "id_paciente": paciente_id
+            }
+            
+            consulta.update(data, id)
+            return redirect("/consultas")
+            
+        consulta_paciente = consulta.get(id)
+        medicos = medico.get()
+        return render_template('consultas/edit.html', consulta=consulta_paciente, medicos=medicos)
+        

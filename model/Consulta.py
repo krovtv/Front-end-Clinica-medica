@@ -9,9 +9,11 @@ class Consulta(Model):
         
     
     def update(self, data, id):
-        sql = "UPDATE consultas SET"
+        sql = "UPDATE consultas SET data_agendamento = ?, id_paciente = ?, id_medico = ? WHERE ROWID = ?;"
+        cursor.execute(sql, [data["data_agendamento"], data["id_paciente"], data["id_medico"], id])
+        conn.commit()
+            
         
-        sql += "WHERE id = ?"
     
     def delete(self, id):
         sql = "DELETE FROM consultas WHERE ROWID = ?"
@@ -24,21 +26,23 @@ class Consulta(Model):
             consultas.ROWID AS id, 
             consultas.data_agendamento, 
             pacientes.nome, 
-            medicos.nome
+            medicos.nome,
+            pacientes.cpf
             FROM
                 consultas
             INNER JOIN 
                 pacientes ON pacientes.ROWID = id_paciente
             INNER JOIN 
-                medicos ON medicos.ROWID = id_medico;
+                medicos ON medicos.ROWID = id_medico
+            
         """
         if id is not None:
-            sql += "WHERE id = ?"
+            sql += "\nWHERE id = ?"
+            cursor.execute(sql, [id])
+            
+            return cursor.fetchone()
         
-        cursor.execute(sql)
-        data = cursor.fetchall() if id is None else cursor.fetchone()
-        
-        return data
-    
+        cursor.execute(sql)  
+        return cursor.fetchall()
 
 instance = Consulta()
