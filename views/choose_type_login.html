@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        div#selected-type{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+            gap: 2rem;
+        }
+
+        .option{
+            width: 200px;
+            height: 100px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 19pt;
+            font-weight: 700;
+            border-radius: 3%;
+        }
+
+        .option-medico{
+            background-color: burlywood;
+        }
+        .option-funcionario{
+            background-color: coral;
+        }
+    </style>
+</head>
+<body>
+    <div id="selected-type">
+        <a class="option option-medico" href="/medico/login">
+            Sou médico
+        </a>
+        <a class="option option-funcionario" href="/funcionario/login">
+            Sou funcionário
+        </a>
+    </div>
+</body>
+</html>
