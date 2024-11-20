@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Paciente</title>
+</head>
+<body>
+    <form action="/funcionario/criar/paciente" method="post">
+        {% with message = get_flashed_messages()[0] %}
+            {% if message %}
+                <span>{{message}}</span>
+            {% endif %}
+        {% endwith %}
+        <div>
+            <label for="nome">Nome do paciente</label>
+            <input type="text" name="nome" id="nome" placeholder="Digite o nome do paciente">
+        </div>
+        <div>
+            <label for="cpf">CPF do paciente</label>
+            <input type="text" name="cpf" id="cpf" maxlength="11">
+            <small>Digite somente os números</small>
+        </div>
+        <div>
+            <label for="idade">Idade do paciente</label>
+            <input type="number" name="idade" id="idade" max="200">
+        </div>
+        <button>Cadastrar Paciente</button>
+    </form>
+</body>
+</html>

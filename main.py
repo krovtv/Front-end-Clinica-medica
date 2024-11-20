@@ -4,6 +4,7 @@ from controller.ConsultaController import ConsultaController
 from controller.Login import Login
 from controller.Cadastro import Cadastro
 from controller.MedicoController import Medico
+from controller.FuncionarioController import Funcionario
 
 from datetime import datetime
 import os
@@ -43,6 +44,7 @@ app.register_blueprint(ConsultaController().blueprint)
 app.register_blueprint(Login().blueprint)
 app.register_blueprint(Cadastro().blueprint)
 app.register_blueprint(Medico().blueprint)
+app.register_blueprint(Funcionario().blueprint)
 
 
 
