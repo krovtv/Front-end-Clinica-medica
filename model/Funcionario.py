@@ -14,7 +14,8 @@ class Funcionario(Model):
         sql = 'SELECT ROWID as id FROM funcionarios WHERE email = ? AND senha = ?'
         
         cursor.execute(sql, [email, self.__criptografia_senha(senha)])
-        return bool(cursor.fetchone())
+        data = cursor.fetchone()
+        return None if data is None else data[0]
     
     def __criptografia_senha(self, senha: str):
         senha_segura = sha256(senha.encode()).hexdigest()

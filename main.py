@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session, redirect
 
 from controller.ConsultaController import ConsultaController
 from controller.Login import Login
@@ -32,6 +32,11 @@ def choose_type_login():
 @app.errorhandler(404)
 def not_found_page(_):
     return render_template("utils/404.html"), 404
+
+@app.get("/logout")
+def logout():
+    session['user'] = None
+    return redirect("/")
 
 
 app.register_blueprint(ConsultaController().blueprint)

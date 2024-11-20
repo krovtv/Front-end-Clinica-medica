@@ -39,8 +39,14 @@ class Login:
             'senha': request.form['senha'],
         }
         
-        autorizado = funcionario.authorize(data['email'], data['senha'])
-        if not autorizado:
+        id_funcionario = funcionario.authorize(data['email'], data['senha'])
+        
+        if not bool(id_funcionario):
             return redirect('/funcionario/login')
+        
+        session['user'] = {
+            'id': id_funcionario,
+            'tipo': 'funcionario'
+        }
         
         return redirect("/consultas/")

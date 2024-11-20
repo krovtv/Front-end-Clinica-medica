@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, render_template, redirect, request, session, abort
 from model.Consulta import instance as consulta
 from model.Medico import instance as medico
 from model.Paciente import instance as paciente
@@ -9,6 +9,9 @@ class ConsultaController:
     
     @blueprint.get("/")
     def get():
+        user = session['user']
+        if not user or user['tipo'] != "funcionario":
+            abort(404)
         data = consulta.get()
         medicos = medico.get()
 
