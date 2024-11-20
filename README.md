@@ -7,7 +7,7 @@ Projeto feito para a matéria de Desenvolvimento de Aplicações Rápidas em Pyt
 
 Se for no Windows
 ```bash
-    .venv/Scripts/activate
+    ./venv/Scripts/activate
 ```
 Se for no Linux
 ```bash

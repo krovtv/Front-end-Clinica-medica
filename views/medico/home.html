@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle - Clínica Hospitalar</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-bg-color: #f8f9fa;
+            --primary-color: #ff4800; /* Laranja mantido */
+            --secondary-color: #6c757d;
+            --header-bg-color: #ff4800; /* Laranja mantido */
+        }
+
+        body {
+            font-family: 'Roboto', 'Open Sans', sans-serif;
+            background-color: var(--main-bg-color);
+            color: var(--secondary-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: var(--header-bg-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .nav-link {
+            color: var(--secondary-color);
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .nav-link.active {
+            background-color: var(--primary-color);
+            color: white !important;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .section {
+            padding: 30px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+            margin: 20px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section.show {
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        footer {
+            background-color: var(--header-bg-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #e73d00; /* Tonalidade mais escura do laranja */
+        }
+
+        .container {
+            padding-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .nav {
+                flex-direction: column;
+            }
+            .nav-link {
+                text-align: center;
+            }
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Bem-vindo à Uniruymed<span class="cross">+</span></h1>
+    </div>
+
+    <div class="container mt-4">
+        <nav class="nav nav-pills justify-content-center mb-4">
+            <a class="nav-link active" id="consultaTab" href="#"><i class="fa fa-calendar-check-o"></i> Consulta</a>
+            <a class="nav-link" id="marcarConsultaTab" href="#"><i class="fa fa-calendar-plus-o"></i> Marcar Consulta</a>
+            <a class="nav-link" id="sobreEmpresaTab" href="#"><i class="fa fa-info-circle"></i> Sobre a Empresa</a>
+        </nav>
+
+        <div class="section" id="consultaSection">
+            <h2>Consulta</h2>
+            <p>Aqui estão suas consultas agendadas:</p>
+            <table  class="table">
+                <thead>
+                    <th scope="col">Data do Agendamento</th>
+                    <th scope="col">Horário do Agendamento</th>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">Médico</th>
+                    <th scope="col" colspan="2">Ações</th>
+                </thead>
+                <tbody>
+                    {% for consulta in consultas %}
+                        <tr>
+                            <td>{{consulta[1] | format_date}}</td>
+                            <td>{{consulta[1] | format_hour}}</td>
+                            <td>{{consulta[2]}}</td>
+                            <td>
+                                <button data-id="{{consulta[0]}}"  class="btn btn-info edit">Editar</button>
+                            </td>
+                            <td>
+                                <button data-id="{{consulta[0]}}" class="btn btn-danger delete">Apagar</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section" id="sobreEmpresaSection" style="display: none;">
+            <h2>Sobre a Empresa</h2>
+            <p>A Uniruymed é uma clínica que oferece atendimento médico de qualidade, com profissionais qualificados e tecnologia de ponta.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Uniruymed. Todos os direitos reservados.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script defer>
+        $(document).ready(function() {
+            let protocolos = [];
+
+            $('.nav-link').on('click', function(e) {
+                e.preventDefault();
+                $('.nav-link').removeClass('active');
+                $(this).addClass('active');
+    
+                const idAlvo = $(this).attr('id').replace('Tab', 'Section');
+                $('.section').hide().removeClass('show');
+                $('#' + idAlvo).fadeIn().addClass('show');
+            });
+
+            $(".delete").click( function(){
+                const id = $(this).data('id');
+                const confirmation = confirm("Deseja remover essa consulta?")
+                if (confirmation){
+                    location.assign("/consultas/delete/" + id)
+                }
+            });
+
+            $(".edit").click(function (){
+                const id = $(this).data('id');
+                location.assign("/consultas/edit/" + id)
+            })
+        });
+    </script>
+</body>
+</html>

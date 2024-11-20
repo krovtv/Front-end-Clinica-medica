@@ -45,4 +45,25 @@ class Consulta(Model):
         cursor.execute(sql)  
         return cursor.fetchall()
 
+    def get_by_medico(self, id_medico: int):
+        sql  = """
+           SELECT 
+            consultas.ROWID AS id, 
+            consultas.data_agendamento, 
+            pacientes.nome, 
+            pacientes.cpf
+            FROM
+                consultas
+            INNER JOIN 
+                pacientes ON pacientes.ROWID = id_paciente
+            INNER JOIN 
+                medicos ON medicos.ROWID = id_medico
+            
+            WHERE id = ?
+        """
+        
+        cursor.execute(sql, [id_medico])
+        
+        return cursor.fetchall()
+
 instance = Consulta()

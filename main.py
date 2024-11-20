@@ -1,10 +1,22 @@
 from flask import Flask, render_template
+
 from controller.ConsultaController import ConsultaController
 from controller.Login import Login
 from controller.Cadastro import Cadastro
-from datetime import datetime
+from controller.MedicoController import Medico
 
+from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+
+# Carrega variavéis de ambiente
+load_dotenv()
+
+# Configurações iniciais da aplicação
 app = Flask(__name__, template_folder="views")
+app.secret_key = os.environ['SECRET_KEY']
+
 
 @app.template_filter()
 def format_date(value: str):
@@ -17,10 +29,15 @@ def format_hour(value: str):
 def choose_type_login():
         return render_template("choose_type_login.html")
 
+@app.errorhandler(404)
+def not_found_page(_):
+    return render_template("utils/404.html"), 404
+
 
 app.register_blueprint(ConsultaController().blueprint)
 app.register_blueprint(Login().blueprint)
 app.register_blueprint(Cadastro().blueprint)
+app.register_blueprint(Medico().blueprint)
 
 
 

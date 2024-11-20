@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request
+from flask import Blueprint, render_template, redirect, request, session
 from model.Medico import instance as medico
 from model.Funcionario import instance as funcionario
 
@@ -15,11 +15,18 @@ class Login:
             'senha': request.form["senha"]
         }
         
-        autenticado = medico.authenticate(data['email'],  data['senha'])
-        if not autenticado:
+        id_medico = medico.authenticate(data['email'],  data['senha'])
+        
+        
+        if not bool(id_medico):
             return redirect("/medico/login")
-            
-        return redirect("/consultas/")
+        
+        session['user'] = {
+            'id': id_medico,
+            'tipo': 'medico'
+        }
+        
+        return redirect("/medico")
     
     @blueprint.get("/funcionario/login")
     def funcionario_login():

@@ -1,1 +1,4 @@
 uniruymed.db
+.env
+.env.*
+venv
