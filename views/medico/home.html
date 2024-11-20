@@ -119,7 +119,6 @@
     <div class="container mt-4">
         <nav class="nav nav-pills justify-content-center mb-4">
             <a class="nav-link active" id="consultaTab" href="#"><i class="fa fa-calendar-check-o"></i> Consulta</a>
-            <a class="nav-link" id="marcarConsultaTab" href="#"><i class="fa fa-calendar-plus-o"></i> Marcar Consulta</a>
             <a class="nav-link" id="sobreEmpresaTab" href="#"><i class="fa fa-info-circle"></i> Sobre a Empresa</a>
         </nav>
 
@@ -131,8 +130,6 @@
                     <th scope="col">Data do Agendamento</th>
                     <th scope="col">Horário do Agendamento</th>
                     <th scope="col">Paciente</th>
-                    <th scope="col">Médico</th>
-                    <th scope="col" colspan="2">Ações</th>
                 </thead>
                 <tbody>
                     {% for consulta in consultas %}
@@ -140,12 +137,6 @@
                             <td>{{consulta[1] | format_date}}</td>
                             <td>{{consulta[1] | format_hour}}</td>
                             <td>{{consulta[2]}}</td>
-                            <td>
-                                <button data-id="{{consulta[0]}}"  class="btn btn-info edit">Editar</button>
-                            </td>
-                            <td>
-                                <button data-id="{{consulta[0]}}" class="btn btn-danger delete">Apagar</button>
-                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -175,19 +166,6 @@
                 $('.section').hide().removeClass('show');
                 $('#' + idAlvo).fadeIn().addClass('show');
             });
-
-            $(".delete").click( function(){
-                const id = $(this).data('id');
-                const confirmation = confirm("Deseja remover essa consulta?")
-                if (confirmation){
-                    location.assign("/consultas/delete/" + id)
-                }
-            });
-
-            $(".edit").click(function (){
-                const id = $(this).data('id');
-                location.assign("/consultas/edit/" + id)
-            })
         });
     </script>
 </body>
