@@ -193,9 +193,9 @@
         $(document).ready(function() {
             let protocolos = [];
 
-            $('.nav-link tab').on('click', function(e) {
+            $('.tab').on('click', function(e) {
                 e.preventDefault();
-                $('.nav-link tab').removeClass('active');
+                $('.tab').removeClass('active');
                 $(this).addClass('active');
     
                 const idAlvo = $(this).attr('id').replace('Tab', 'Section');
