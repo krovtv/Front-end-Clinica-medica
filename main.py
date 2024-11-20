@@ -28,7 +28,13 @@ def format_hour(value: str):
 
 @app.get("/")
 def choose_type_login():
-        return render_template("choose_type_login.html")
+        user = session.get('user')
+        if user is None:
+            return render_template("choose_type_login.html")
+        elif user['tipo'] == 'medico':
+            return redirect('/medico')
+        
+        return redirect("/consultas/")
 
 @app.errorhandler(404)
 def not_found_page(_):

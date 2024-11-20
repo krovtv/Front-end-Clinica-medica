@@ -7,7 +7,7 @@ class Funcionario:
     
     @blueprint.before_request
     def verify_user():
-        user = session['user']
+        user = session.get('user')
         
         if not user or user['tipo'] != 'funcionario':
             return abort(404)

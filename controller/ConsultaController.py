@@ -9,7 +9,7 @@ class ConsultaController:
     
     @blueprint.get("/")
     def get():
-        user = session['user']
+        user = session.get('user')
         if not user or user['tipo'] != "funcionario":
             abort(404)
         data = consulta.get()

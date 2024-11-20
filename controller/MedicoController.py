@@ -6,7 +6,7 @@ class Medico:
     
     @blueprint.get("/medico")
     def home():
-        user = session['user']
+        user = session.get('user')
         if not user or user['tipo'] != 'medico':
             return abort(404)
         
