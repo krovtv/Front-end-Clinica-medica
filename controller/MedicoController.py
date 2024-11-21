@@ -47,3 +47,30 @@ class Medico:
             
         
         return redirect("/medico/exames")
+    
+    @blueprint.get("/medico/exames/deletar/<id>")
+    def delete_exame(id):
+        exame.delete(id)
+        return redirect("/medico/exames")
+
+    @blueprint.get("/medico/exames/atualizar/<id>")
+    def update_exame(id):
+        exame_paciente = exame.get(id)
+        tipo_exames = tipo_exame.get()
+        return render_template('medico/editar_exames.html', exame=exame_paciente, tipo_exames=tipo_exames)
+    
+    @blueprint.post("/medico/exames/atualizar/<id>")
+    def update_exame_action(id):
+        paciente_cpf  = request.form['paciente_cpf']
+        data = {
+            'data_entrega': request.form['data_entrega'],
+            'tipo_exame': request.form['tipo_exame'],
+        }
+        
+        id_paciente = paciente.get_by_cpf(paciente_cpf)[0]
+        data['id_paciente'] = id_paciente
+        
+        
+        exame.update(data, id)
+        flash('Exame alterado com sucesso')
+        return redirect("/medico/exames")
