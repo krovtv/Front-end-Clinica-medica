@@ -1,48 +1,96 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Painel Uniruymed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        div#selected-type{
+        :root {
+            --main-bg-color: #f8f9fa;
+            --primary-color: #ff4800;
+            --secondary-color: #6c757d;
+            --header-bg-color: #ff4800;
+        }
+
+        body {
+            font-family: 'Roboto', 'Open Sans', sans-serif;
+            background-color: var(--main-bg-color);
             display: flex;
-            align-items: center;
             justify-content: center;
-            width: 100%;
+            align-items: center;
             height: 100vh;
-            gap: 2rem;
+            margin: 0;
+            padding: 0;
         }
 
-        .option{
-            width: 200px;
-            height: 100px;
-            color: white;
+        .panel {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .clinic-name {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .button-group {
             display: flex;
+            flex-direction: column;
+            gap: 20px;
             align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 19pt;
-            font-weight: 700;
-            border-radius: 3%;
         }
 
-        .option-medico{
-            background-color: burlywood;
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.1s ease;
         }
-        .option-funcionario{
-            background-color: coral;
+
+        .btn-primary:hover {
+            background: #e73d00;
+            transform: scale(1.05);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            .clinic-name {
+                font-size: 30px;
+            }
+            .btn-primary {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="selected-type">
-        <a class="option option-medico" href="/medico/login">
-            Sou médico
-        </a>
-        <a class="option option-funcionario" href="/funcionario/login">
-            Sou funcionário
-        </a>
+    <div class="panel">
+        <div class="clinic-name">
+            Uniruymed+
+        </div>
+        <div class="button-group">
+            <button class="btn-primary" onclick="location.href = '/medico/login'">Sou Médico</button>
+            <button class="btn-primary" onclick="location.href = '/funcionario/login'">Sou Funcionário</button>
+        </div>
     </div>
 </body>
 </html>
