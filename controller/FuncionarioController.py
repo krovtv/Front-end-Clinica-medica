@@ -33,6 +33,39 @@ class Funcionario:
         
         return redirect('/funcionario/criar/paciente')
     
+    @blueprint.get("/paciente")
+    def listar_pacientes():
+        pacientes = paciente.get()
+        
+        return render_template("funcionario/listar_pacientes.html", pacientes=pacientes)
+    
+    @blueprint.get("/deletar/<id>/paciente")
+    def delete_paciente(id):
+        paciente.delete(id)
+        return redirect("/funcionario/paciente")
+    
+    @blueprint.get("/atualizar/<id>/paciente")
+    def atualizar_paciente(id):
+        paciente_escolhido = paciente.get(id)
+        return render_template("funcionario/editar_paciente.html", paciente=paciente_escolhido)
+    
+    @blueprint.post('/atualizar/<id>/paciente')
+    def atualizar_paciente_action(id):
+        try:
+            data = {
+                'cpf': request.form['cpf'],
+                'idade': request.form['idade'],
+                'nome': request.form['nome'],
+            }
+            
+            paciente.update(data, id)
+        except Exception as e:
+            print(e)
+            flash("Houve um erro interno. Tente novamente mais tarde !")
+        
+        return redirect('/funcionario/paciente')
+        
+    
     @blueprint.get("/exames")
     def list_exames():
         exames = exame.get()
