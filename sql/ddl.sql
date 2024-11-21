@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS exames (
 	data_pedido datetime NOT NULL DEFAULT current_timestamp,
 	data_entrega datetime NOT NULL,
 	tipo_exame integer NOT NULL,
+	foi_entregue boolean NOT NULL DEFAULT FALSE,
 	FOREIGN KEY (id_paciente) REFERENCES pacientes(rowid),
 	FOREIGN KEY (tipo_exame) REFERENCES tipo_exame(rowid)
 );
-
