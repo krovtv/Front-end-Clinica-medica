@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, session, abort
+from flask import Blueprint, render_template, redirect, request, session, abort, flash
 from model.Consulta import instance as consulta
 from model.Medico import instance as medico
 from model.Paciente import instance as paciente
@@ -23,15 +23,22 @@ class ConsultaController:
         data_agendamento = request.form["data_agendamento"]
         id_medico = request.form["medico"]
         
-        paciente_pelo_cpf = paciente.get_by_cpf(paciente_cpf)  
+        try:
+            
+            paciente_pelo_cpf = paciente.get_by_cpf(paciente_cpf)  
+            
+            data = {
+                "id_paciente": paciente_pelo_cpf[0],
+                "data_agendamento": data_agendamento,
+                "id_medico": id_medico
+            }
+            
+            consulta.create(data)
+        except TypeError:
+            flash("Não existe paciente com esse CPF")
         
-        data = {
-            "id_paciente": paciente_pelo_cpf[0],
-            "data_agendamento": data_agendamento,
-            "id_medico": id_medico
-        }
-        
-        consulta.create(data)
+        except Exception as e:
+            flash("Houve um erro interno. Tente novamente mais tarde !")
         
         return redirect("/consultas")
     

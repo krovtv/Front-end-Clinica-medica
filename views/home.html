@@ -128,6 +128,14 @@
             <button onclick="location.assign('/logout')" class="btn btn-danger btn-lg btn-block">Fazer logout</button>
         </div>
 
+        {% with message = get_flashed_messages()[0] %}
+            {% if message %}
+                <div class="alert alert-danger w-100 my-2">
+                    <span>{{message}}</span>
+                </div>
+            {% endif %}
+        {% endwith %}
+
         <div class="section" id="consultaSection">
             <h2>Consulta</h2>
             <p>Aqui estão suas consultas agendadas:</p>
@@ -171,7 +179,7 @@
                     <input type="datetime-local" class="form-control" id="date" name="data_agendamento" required>
                 </div>
                 <label for="medicos">Médico</label>
-                <select class="form-control" name="medico" id="medicos">
+                <select class="form-control" name="medico" id="medicos" required>
                     {% for medico in medicos %}
                         <option value="{{medico[0]}}">{{medico[1]}}</option>
                     {% endfor %}
