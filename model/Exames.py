@@ -76,4 +76,14 @@ class Exame(Model):
         cursor.execute(sql, [protocolo])
         return bool(cursor.fetchone()[0])
     
+    def alter_recebimento_exame(self, id, foi_entregue: bool):
+        sql = """UPDATE exames 
+            SET
+                foi_entregue = ?
+            WHERE ROWID = ?;
+        """
+        
+        cursor.execute(sql, [foi_entregue, id])
+        conn.commit()
+    
 instance = Exame()
