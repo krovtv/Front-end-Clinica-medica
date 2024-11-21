@@ -2,7 +2,7 @@ import sqlite3
 
 
 def ddl():
-    with open("./sql/ddl.sql", "r") as sql:
+    with open("./sql/ddl.sql", "r", encoding='utf-8') as sql:
         return sql.read()
 def pre_inserts_sql():
     with open("./sql/pre-inserts.sql", "r", encoding='utf-8') as sql:
