@@ -130,9 +130,10 @@
                     <th scope="col">Protocolo</th>
                     <th scope="col">Data de entrega</th>
                     <th scope="col">Horário de entrega</th>
+                    <th scope="col">Foi entregue</th>
                     <th scope="col">Nome do paciente</th>
                     <th scope="col">Tipo de exame</th>
-                    <th scope="col">Ações</th>
+                    <th scope="col" colspan="2">Ações</th>
                 </thead>
                 <tbody>
                     {% for exame in exames %}
@@ -140,6 +141,14 @@
                             <td>{{exame[1]}}</td>
                             <td>{{exame[3] | format_date}}</td>
                             <td>{{exame[3] | format_hour}}</td>
+                            <td>
+                                {%if exame[4] %}
+                                    <i class="fa fa-check-circle text-success"></i>
+                                {% else %}
+                                    <i class="fa fa-times-circle text-danger"></i>
+                                {% endif %}
+
+                            </td>
                             <td>{{exame[5]}}</td>
                             <td>{{exame[6]}}</td>
                             <td><button class="btn btn-info" onclick="location.assign('/medico/exames/atualizar/{{exame[0]}}')">Editar</button></td>
