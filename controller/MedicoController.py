@@ -31,18 +31,25 @@ class Medico:
         return render_template('medico/criar_exames.html', tipo_exames=tipo)
     @blueprint.post("/medico/exames/criar")
     def create_exames_action():
-        paciente_cpf  = request.form['paciente_cpf']
-        data = {
-            'data_entrega': request.form['data_entrega'],
-            'tipo_exame': request.form['tipo_exame'],
-        }
         
-        id_paciente = paciente.get_by_cpf(paciente_cpf)[0]
-        data['id_paciente'] = id_paciente
+        try:
+            paciente_cpf  = request.form['paciente_cpf']
+            data = {
+                'data_entrega': request.form['data_entrega'],
+                'tipo_exame': request.form['tipo_exame'],
+            }
+            
+            id_paciente = paciente.get_by_cpf(paciente_cpf)[0]
+            data['id_paciente'] = id_paciente
+            
+            
+            exame.create(data)
+            flash('Exame criado com sucesso')
+        except TypeError:
+            flash("Esse CPF não foi cadastrado !")
         
-        
-        exame.create(data)
-        flash('Exame criado com sucesso')
+        except Exception:
+            flash("Houve um erro interno em nosso sistema. Tente novamente mais tarde !")
     
             
         
@@ -61,16 +68,22 @@ class Medico:
     
     @blueprint.post("/medico/exames/atualizar/<id>")
     def update_exame_action(id):
-        paciente_cpf  = request.form['paciente_cpf']
-        data = {
-            'data_entrega': request.form['data_entrega'],
-            'tipo_exame': request.form['tipo_exame'],
-        }
+        try:
+            paciente_cpf  = request.form['paciente_cpf']
+            data = {
+                'data_entrega': request.form['data_entrega'],
+                'tipo_exame': request.form['tipo_exame'],
+            }
+            
+            id_paciente = paciente.get_by_cpf(paciente_cpf)[0]
+            data['id_paciente'] = id_paciente
+            exame.update(data, id)
+            flash('Exame alterado com sucesso')
+        except TypeError:
+            flash("Esse CPF não existe !")
         
-        id_paciente = paciente.get_by_cpf(paciente_cpf)[0]
-        data['id_paciente'] = id_paciente
+        except Exception:
+            flash("Houve um erro interno em nosso sistema. Tente novamente mais tarde !")
         
         
-        exame.update(data, id)
-        flash('Exame alterado com sucesso')
         return redirect("/medico/exames")

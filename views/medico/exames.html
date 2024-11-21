@@ -121,6 +121,13 @@
             
             <button onclick="location.assign('/medico')" class="btn btn-secondary btn-lg btn-block">Voltar</button>
         </div>
+        {% with message = get_flashed_messages()[0] %}
+            {% if message %}
+                <div class="alert alert-danger w-100 my-2">
+                    <span>{{message}}</span>
+                </div>
+            {% endif %}
+        {% endwith %}
         <div class="section" id="consultaSection">
             <h2>Exames</h2>
             <p>Aqui estão os exames solicitados:</p>
